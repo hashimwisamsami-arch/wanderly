@@ -4,12 +4,14 @@ import Navbar from "./components/layout/Navbar.jsx";
 
 import Hero from "./components/sections/Hero.jsx";
 import TripSearch from "./components/sections/TripSearch.jsx";
+import Benefits from "./components/sections/Benefits.jsx";
 
 function Home() {
   return (
     <main>
       <Hero />
       <TripSearch />
+      <Benefits />
     </main>
   );
 }
