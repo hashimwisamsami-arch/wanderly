@@ -458,3 +458,64 @@ export function animateHowItWorks(element) {
     gsap.killTweensOf([header, steps, connectors]);
   };
 }
+
+export function animateStatistics(element) {
+  if (!element) return undefined;
+
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  const items = element.querySelectorAll(".stat-item");
+
+  if (!items.length) return undefined;
+
+  if (reduceMotion) {
+    gsap.set(items, {
+      opacity: 1,
+      y: 0,
+    });
+
+    return undefined;
+  }
+
+  gsap.set(items, {
+    opacity: 0,
+    y: 20,
+  });
+
+  let hasAnimated = false;
+
+  const playAnimation = () => {
+    if (hasAnimated) return;
+
+    hasAnimated = true;
+
+    gsap.to(items, {
+      opacity: 1,
+      y: 0,
+      duration: 0.5,
+      stagger: 0.1,
+      ease: "power3.out",
+    });
+  };
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        playAnimation();
+        observer.disconnect();
+      }
+    },
+    {
+      threshold: 0.2,
+    },
+  );
+
+  observer.observe(element);
+
+  return () => {
+    observer.disconnect();
+    gsap.killTweensOf(items);
+  };
+}
