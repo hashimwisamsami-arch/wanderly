@@ -5,6 +5,7 @@ import Navbar from "./components/layout/Navbar.jsx";
 import Hero from "./components/sections/Hero.jsx";
 import TripSearch from "./components/sections/TripSearch.jsx";
 import Benefits from "./components/sections/Benefits.jsx";
+import PopularTrips from "./components/sections/PopularTrips.jsx";
 
 function Home() {
   return (
@@ -12,6 +13,7 @@ function Home() {
       <Hero />
       <TripSearch />
       <Benefits />
+      <PopularTrips />
     </main>
   );
 }
