@@ -9,7 +9,7 @@ const secondaryButtonClasses =
 
 export default function Hero() {
   return (
-    <section className="relative isolate min-h-180 overflow-hidden bg-[#75c9f4] text-white sm:min-h-[760px] lg:min-h-screen">
+    <section className="relative isolate min-h-180 overflow-hidden bg-[#75c9f4] text-white sm:min-h-190 lg:min-h-screen">
       {/* Soft readable overlay */}
       <div
         className="absolute inset-0 -z-10 bg-[#0f2a5f]/10"

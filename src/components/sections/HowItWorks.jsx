@@ -45,7 +45,7 @@ export default function HowItWorks() {
 
               {index < processSteps.length - 1 && (
                 <span
-                  className="step-connector absolute -right-6 top-7 hidden h-px w-8 bg-sky-200 lg:block xl:right-[-1.75rem] xl:w-10"
+                  className="step-connector absolute -right-6 top-7 hidden h-px w-8 bg-sky-200 lg:block xl:-right-7 xl:w-10"
                   aria-hidden="true"
                 />
               )}
