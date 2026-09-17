@@ -1,0 +1,194 @@
+@import "tailwindcss";
+
+/* =========================================================
+   Wanderly — Global Design System
+   PART 0: Project Foundation
+   ========================================================= */
+
+@theme {
+  /* Brand palette: Sky Blue → White → Dark Blue → Warm Accent */
+  --color-brand-sky: #38bdf8;
+  --color-brand-sky-strong: #0ea5e9;
+  --color-brand-blue: #2563eb;
+  --color-brand-navy: #0f2a5f;
+
+  /* Neutral surfaces */
+  --color-surface: #ffffff;
+  --color-surface-soft: #f7fbff;
+  --color-surface-muted: #eef7fc;
+
+  /* Supporting colors */
+  --color-text-primary: #0f2a5f;
+  --color-text-secondary: #526684;
+  --color-text-muted: #71809a;
+  --color-border-soft: #dcebf5;
+
+  /* Warm accent for ratings / highlights */
+  --color-accent-warm: #f59e0b;
+  --color-accent-warm-soft: #fff7e6;
+
+  /* Typography */
+  --font-sans:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+
+  /* Soft, lightweight elevation */
+  --shadow-soft: 0 12px 32px rgb(15 42 95 / 0.08);
+  --shadow-card: 0 8px 24px rgb(15 42 95 / 0.06);
+  --shadow-focus: 0 0 0 4px rgb(56 189 248 / 0.16);
+
+  /* Rounded visual language */
+  --radius-card: 1.25rem;
+  --radius-panel: 1.5rem;
+  --radius-pill: 9999px;
+}
+
+:root {
+  color-scheme: light;
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-width: 320px;
+    min-height: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  figure,
+  blockquote {
+    margin: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--color-text-primary);
+    font-weight: 700;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  p {
+    color: var(--color-text-secondary);
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    margin: 0;
+    font: inherit;
+  }
+
+  button {
+    border: 0;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  img,
+  video {
+    height: auto;
+  }
+
+  ::selection {
+    background: rgb(56 189 248 / 0.22);
+    color: var(--color-text-primary);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-sky-strong);
+    outline-offset: 3px;
+  }
+}
+
+/* Shared wide centered container for future sections. */
+@utility page-container {
+  width: min(calc(100% - 2rem), 1200px);
+  margin-inline: auto;
+}
+
+@media (min-width: 640px) {
+  .page-container {
+    width: min(calc(100% - 3rem), 1200px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-container {
+    width: min(calc(100% - 5rem), 1280px);
+  }
+}
+
+/* Consistent soft card language for reusable UI components later. */
+@utility card-surface {
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+/* Respect user motion preferences from the foundation level. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
