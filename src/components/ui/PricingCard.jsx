@@ -17,7 +17,7 @@ export default function PricingCard({
       ].join(" ")}
     >
       {/* Badge area */}
-      <div className="mb-3 min-h-[24px]">
+      <div className="mb-3 min-h-6">
         {popular && (
           <div className="inline-flex items-center gap-1.5 rounded-full bg-sky-600 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-white">
             <Sparkles size={12} aria-hidden="true" />
@@ -38,7 +38,7 @@ export default function PricingCard({
           <span className="mb-1 text-xs text-slate-400">/ trip</span>
         </div>
 
-        <p className="mt-4 min-h-[48px] text-sm leading-6 text-slate-600">
+        <p className="mt-4 min-h-12 text-sm leading-6 text-slate-600">
           {description}
         </p>
       </div>
