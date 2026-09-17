@@ -5,6 +5,7 @@ import PopularTrips from "../components/sections/PopularTrips.jsx";
 import Pricing from "../components/sections/Pricing.jsx";
 import HowItWorks from "../components/sections/HowItWorks.jsx";
 import Statistics from "../components/sections/Statistics.jsx";
+import Testimonial from "../components/sections/Testimonial.jsx";
 
 const Home = () => {
   return (
@@ -16,6 +17,7 @@ const Home = () => {
       <Pricing />
       <HowItWorks />
       <Statistics />
+      <Testimonial />
     </main>
   );
 };

@@ -519,3 +519,99 @@ export function animateStatistics(element) {
     gsap.killTweensOf(items);
   };
 }
+
+export function animateTestimonial(element) {
+  if (!element) return undefined;
+
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  const header = element.querySelector(".testimonial-header");
+  const card = element.querySelector(".testimonial-card");
+  const footer = element.querySelector(".testimonial-footer");
+
+  if (!header || !card || !footer) return undefined;
+
+  if (reduceMotion) {
+    gsap.set([header, card, footer], {
+      opacity: 1,
+      y: 0,
+    });
+
+    return undefined;
+  }
+
+  gsap.set(header, {
+    opacity: 0,
+    y: 24,
+  });
+
+  gsap.set(card, {
+    opacity: 0,
+    y: 30,
+  });
+
+  gsap.set(footer, {
+    opacity: 0,
+    y: 16,
+  });
+
+  let hasAnimated = false;
+
+  const playAnimation = () => {
+    if (hasAnimated) return;
+
+    hasAnimated = true;
+
+    const timeline = gsap.timeline({
+      defaults: {
+        ease: "power3.out",
+      },
+    });
+
+    timeline
+      .to(header, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+      })
+      .to(
+        card,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+        },
+        "-=0.25",
+      )
+      .to(
+        footer,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.35,
+        },
+        "-=0.25",
+      );
+  };
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        playAnimation();
+        observer.disconnect();
+      }
+    },
+    {
+      threshold: 0.2,
+    },
+  );
+
+  observer.observe(element);
+
+  return () => {
+    observer.disconnect();
+    gsap.killTweensOf([header, card, footer]);
+  };
+}
