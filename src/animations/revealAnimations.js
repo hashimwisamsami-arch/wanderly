@@ -174,3 +174,85 @@ export function animateBenefits(element) {
     gsap.killTweensOf([header, cards]);
   };
 }
+
+export function animatePopularTrips(element) {
+  if (!element) return undefined;
+
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  const header = element.querySelector(".popular-trips-header");
+  const cards = element.querySelectorAll(".trip-card");
+
+  if (!header || !cards.length) return undefined;
+
+  if (reduceMotion) {
+    gsap.set([header, cards], {
+      opacity: 1,
+      y: 0,
+    });
+
+    return undefined;
+  }
+
+  gsap.set(header, {
+    opacity: 0,
+    y: 24,
+  });
+
+  gsap.set(cards, {
+    opacity: 0,
+    y: 30,
+  });
+
+  let hasAnimated = false;
+
+  const playAnimation = () => {
+    if (hasAnimated) return;
+
+    hasAnimated = true;
+
+    const timeline = gsap.timeline({
+      defaults: {
+        ease: "power3.out",
+      },
+    });
+
+    timeline
+      .to(header, {
+        opacity: 1,
+        y: 0,
+        duration: 0.55,
+      })
+      .to(
+        cards,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.55,
+          stagger: 0.09,
+        },
+        "-=0.25",
+      );
+  };
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        playAnimation();
+        observer.disconnect();
+      }
+    },
+    {
+      threshold: 0.12,
+    },
+  );
+
+  observer.observe(element);
+
+  return () => {
+    observer.disconnect();
+    gsap.killTweensOf([header, cards]);
+  };
+}
