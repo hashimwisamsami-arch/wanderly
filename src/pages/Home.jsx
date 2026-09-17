@@ -4,6 +4,7 @@ import Benefits from "../components/sections/Benefits.jsx";
 import PopularTrips from "../components/sections/PopularTrips.jsx";
 import Pricing from "../components/sections/Pricing.jsx";
 import HowItWorks from "../components/sections/HowItWorks.jsx";
+import Statistics from "../components/sections/Statistics.jsx";
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
       <PopularTrips />
       <Pricing />
       <HowItWorks />
+      <Statistics />
     </main>
   );
 };
