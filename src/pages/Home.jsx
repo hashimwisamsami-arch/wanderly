@@ -6,6 +6,7 @@ import Pricing from "../components/sections/Pricing.jsx";
 import HowItWorks from "../components/sections/HowItWorks.jsx";
 import Statistics from "../components/sections/Statistics.jsx";
 import Testimonial from "../components/sections/Testimonial.jsx";
+import FAQ from "../components/sections/FAQ.jsx";
 
 const Home = () => {
   return (
@@ -18,6 +19,7 @@ const Home = () => {
       <HowItWorks />
       <Statistics />
       <Testimonial />
+      <FAQ />
     </main>
   );
 };
