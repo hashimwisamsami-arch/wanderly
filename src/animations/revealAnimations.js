@@ -256,3 +256,100 @@ export function animatePopularTrips(element) {
     gsap.killTweensOf([header, cards]);
   };
 }
+
+export function animatePricing(element) {
+  if (!element) return undefined;
+
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  const intro = element.querySelector(".pricing-intro");
+  const visual = element.querySelector(".pricing-visual");
+  const cards = element.querySelectorAll(".pricing-card");
+
+  if (!intro || !visual || !cards.length) return undefined;
+
+  if (reduceMotion) {
+    gsap.set([intro, visual, cards], {
+      opacity: 1,
+      y: 0,
+    });
+
+    return undefined;
+  }
+
+  gsap.set(intro, {
+    opacity: 0,
+    y: 24,
+  });
+
+  gsap.set(visual, {
+    opacity: 0,
+    y: 20,
+  });
+
+  gsap.set(cards, {
+    opacity: 0,
+    y: 28,
+  });
+
+  let hasAnimated = false;
+
+  const playAnimation = () => {
+    if (hasAnimated) return;
+
+    hasAnimated = true;
+
+    const timeline = gsap.timeline({
+      defaults: {
+        ease: "power3.out",
+      },
+    });
+
+    timeline
+      .to(intro, {
+        opacity: 1,
+        y: 0,
+        duration: 0.55,
+      })
+      .to(
+        visual,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.65,
+        },
+        "-=0.3",
+      )
+      .to(
+        cards,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.08,
+        },
+        "-=0.35",
+      );
+  };
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        playAnimation();
+        observer.disconnect();
+      }
+    },
+    {
+      threshold: 0.15,
+    },
+  );
+
+  observer.observe(element);
+
+  return () => {
+    observer.disconnect();
+    gsap.killTweensOf([intro, visual, cards]);
+  };
+}

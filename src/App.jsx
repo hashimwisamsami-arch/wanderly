@@ -6,6 +6,7 @@ import Hero from "./components/sections/Hero.jsx";
 import TripSearch from "./components/sections/TripSearch.jsx";
 import Benefits from "./components/sections/Benefits.jsx";
 import PopularTrips from "./components/sections/PopularTrips.jsx";
+import Pricing from "./components/sections/Pricing.jsx";
 
 function Home() {
   return (
@@ -14,6 +15,7 @@ function Home() {
       <TripSearch />
       <Benefits />
       <PopularTrips />
+      <Pricing />
     </main>
   );
 }

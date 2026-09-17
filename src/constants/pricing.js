@@ -1,0 +1,55 @@
+export const pricingPlans = [
+  {
+    id: "essential",
+    name: "Essential",
+    price: "$499",
+    description: "For travelers who like to keep things simple.",
+    features: [
+      "Standard accommodation",
+      "Basic travel assistance",
+      "Flexible itinerary",
+      "Essential trip information",
+    ],
+    popular: false,
+  },
+  {
+    id: "comfort",
+    name: "Comfort",
+    price: "$899",
+    description: "A little more comfort, with less to organize.",
+    features: [
+      "Upgraded accommodation",
+      "Priority assistance",
+      "Selected transfers",
+      "Curated activities",
+    ],
+    popular: true,
+  },
+  {
+    id: "premium",
+    name: "Premium",
+    price: "$1,499",
+    description: "More comfort and more flexibility throughout your trip.",
+    features: [
+      "Premium accommodation",
+      "Private transfers",
+      "Flexible activities",
+      "Dedicated support",
+    ],
+    popular: false,
+  },
+  {
+    id: "signature",
+    name: "Signature",
+    price: "$2,499",
+    description: "For travelers who want a more personalized experience.",
+    features: [
+      "Premium stays",
+      "Private transfers",
+      "Personalized itinerary",
+      "Exclusive experiences",
+      "Priority support",
+    ],
+    popular: false,
+  },
+];
