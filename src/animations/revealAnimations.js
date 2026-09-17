@@ -353,3 +353,108 @@ export function animatePricing(element) {
     gsap.killTweensOf([intro, visual, cards]);
   };
 }
+
+export function animateHowItWorks(element) {
+  if (!element) return undefined;
+
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  const header = element.querySelector(".how-it-works-header");
+  const steps = element.querySelectorAll(".step-item");
+  const connectors = element.querySelectorAll(".step-connector");
+
+  if (!header || !steps.length) return undefined;
+
+  if (reduceMotion) {
+    gsap.set([header, steps, connectors], {
+      opacity: 1,
+      y: 0,
+      scaleX: 1,
+    });
+
+    return undefined;
+  }
+
+  gsap.set(header, {
+    opacity: 0,
+    y: 20,
+  });
+
+  gsap.set(steps, {
+    opacity: 0,
+    y: 24,
+  });
+
+  if (connectors.length) {
+    gsap.set(connectors, {
+      opacity: 0,
+      scaleX: 0,
+      transformOrigin: "left center",
+    });
+  }
+
+  let hasAnimated = false;
+
+  const playAnimation = () => {
+    if (hasAnimated) return;
+
+    hasAnimated = true;
+
+    const timeline = gsap.timeline({
+      defaults: {
+        ease: "power3.out",
+      },
+    });
+
+    timeline
+      .to(header, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+      })
+      .to(
+        steps,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.1,
+        },
+        "-=0.25",
+      );
+
+    if (connectors.length) {
+      timeline.to(
+        connectors,
+        {
+          opacity: 0.6,
+          scaleX: 1,
+          duration: 0.4,
+          stagger: 0.1,
+        },
+        "-=0.35",
+      );
+    }
+  };
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        playAnimation();
+        observer.disconnect();
+      }
+    },
+    {
+      threshold: 0.15,
+    },
+  );
+
+  observer.observe(element);
+
+  return () => {
+    observer.disconnect();
+    gsap.killTweensOf([header, steps, connectors]);
+  };
+}
