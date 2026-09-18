@@ -1,5 +1,7 @@
+import { useEffect, useRef } from "react";
 import { CalendarDays, MapPin, Star } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { gsap } from "gsap";
 
 import { Spotlight } from "../components/ui/spotlight";
 import { BorderBeam } from "../components/ui/border-beam";
@@ -9,7 +11,7 @@ function TripCard({ trip, featured = false }) {
   return (
     <article
       className={[
-        "group relative overflow-hidden rounded-panel border bg-white shadow-[0_10px_30px_rgb(15_42_95/0.06)]",
+        "trip-card group relative overflow-hidden rounded-panel border bg-white shadow-[0_10px_30px_rgb(15_42_95/0.06)]",
         "transition-[transform,box-shadow,border-color] duration-300 ease-out",
         "hover:-translate-y-1 hover:border-sky-100 hover:shadow-[0_18px_40px_rgb(15_42_95/0.1)]",
         featured ? "border-sky-200" : "border-slate-100",
@@ -57,6 +59,7 @@ function TripCard({ trip, featured = false }) {
         <div className="mt-5 flex items-end justify-between gap-4">
           <div>
             <p className="text-xs text-slate-500">Starting from</p>
+
             <p className="mt-1 text-lg font-bold text-[#0f2a5f]">
               {trip.price}
             </p>
@@ -76,8 +79,113 @@ function TripCard({ trip, featured = false }) {
 }
 
 export default function Trips() {
+  const pageRef = useRef(null);
+  const heroContentRef = useRef(null);
+  const sectionHeaderRef = useRef(null);
+  const cardsRef = useRef(null);
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (reduceMotion) {
+      gsap.set(
+        [
+          heroContentRef.current,
+          sectionHeaderRef.current,
+          ...(cardsRef.current?.children ?? []),
+        ],
+        {
+          opacity: 1,
+          y: 0,
+        },
+      );
+
+      return;
+    }
+
+    const context = gsap.context(() => {
+      const cards = cardsRef.current?.children;
+
+      // Initial state
+      gsap.set(heroContentRef.current, {
+        opacity: 0,
+        y: 30,
+      });
+
+      gsap.set(sectionHeaderRef.current, {
+        opacity: 0,
+        y: 25,
+      });
+
+      gsap.set(cards, {
+        opacity: 0,
+        y: 35,
+      });
+
+      // Hero animation
+      gsap.to(heroContentRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.75,
+        ease: "power3.out",
+      });
+
+      // Section header
+      const headerObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+
+          gsap.to(sectionHeaderRef.current, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "power3.out",
+          });
+
+          headerObserver.disconnect();
+        },
+        {
+          threshold: 0.2,
+        },
+      );
+
+      headerObserver.observe(sectionHeaderRef.current);
+
+      // Cards stagger animation
+      const cardsObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+
+          gsap.to(cards, {
+            opacity: 1,
+            y: 0,
+            duration: 0.55,
+            stagger: 0.09,
+            ease: "power3.out",
+          });
+
+          cardsObserver.disconnect();
+        },
+        {
+          threshold: 0.12,
+        },
+      );
+
+      cardsObserver.observe(cardsRef.current);
+
+      return () => {
+        headerObserver.disconnect();
+        cardsObserver.disconnect();
+      };
+    }, pageRef);
+
+    return () => context.revert();
+  }, []);
+
   return (
-    <main className="min-h-screen bg-slate-50">
+    <main ref={pageRef} className="min-h-screen bg-slate-50">
       {/* Hero */}
       <section className="relative overflow-hidden bg-[#0f5fa8] py-28 sm:py-32">
         <Spotlight
@@ -86,7 +194,10 @@ export default function Trips() {
         />
 
         <div className="page-container relative z-10">
-          <div className="mx-auto max-w-3xl text-center text-white">
+          <div
+            ref={heroContentRef}
+            className="mx-auto max-w-3xl text-center text-white"
+          >
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-sky-100">
               Wanderly Trips
             </p>
@@ -107,7 +218,10 @@ export default function Trips() {
       {/* Trips */}
       <section className="py-14 sm:py-16 lg:py-20">
         <div className="page-container">
-          <div className="mb-8 flex flex-col gap-2 sm:mb-10">
+          <div
+            ref={sectionHeaderRef}
+            className="mb-8 flex flex-col gap-2 sm:mb-10"
+          >
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-600">
               Choose your journey
             </p>
@@ -122,7 +236,10 @@ export default function Trips() {
             </p>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div
+            ref={cardsRef}
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          >
             {trips.map((trip, index) => (
               <TripCard key={trip.id} trip={trip} featured={index === 1} />
             ))}
